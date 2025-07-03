@@ -2,7 +2,7 @@
 
 Hello all welcome to my AKS deployment tutorial.
 
-My plan to perfom the AKS deployment is to do it from scrach so i took the code from the Azure DevOps Demogenerator which have source code and all othe rfiles like docker file , Docker composefile nad Kubernetes manifest files.
+My plan to perfom the AKS deployment is to do it from scrach so i took the code from the Azure DevOps Demogenerator which have source code and all other files like docker file , Docker composefile and Kubernetes manifest files.
 
 Below are clear instructions to perform AKS deployment using multiple resources 
 1. ACR
