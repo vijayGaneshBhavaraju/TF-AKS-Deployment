@@ -56,7 +56,7 @@ resource "azurerm_role_assignment" "aks2acr" {
   skip_service_principal_aad_check = true
 }
 
-#  set this SQL server name nad credentials in the ADO Variable group 
+#  set this SQL server name and credentials in the ADO Variable group or Set here below directly so that you cna mask once the resources are created
 
 resource "azurerm_mssql_server" "sqlserver" {
   name                = "xxxxxxxxxx"
