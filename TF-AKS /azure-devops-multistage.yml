@@ -1,0 +1,78 @@
+#MY FIrst AKS Deployment
+trigger:
+- none
+
+variables:
+- group: SQL_Server
+- name: vmImageName
+  value: 'ubuntu-latest'
+- name: subscription
+  value: 'Master Vijay'
+
+stages:
+  - stage: Terraform
+    displayName: Terraform Build stage
+    jobs:
+    - job: Build
+      displayName:  Terraform Build Job
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: TerraformInstaller@1
+        inputs: 
+          terraformVersion: 'latest'
+
+      - task: TerraformTask@5
+        displayName: init
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/env'
+          backendAzureRmUseEntraIdForAuthentication: false
+          backendServiceArm: 'TFwithaks'
+          backendAzureRmOverrideSubscriptionID: 'dc1ccaa1-bfb7-4732-89fd-bae6e9a0155f'
+          backendAzureRmResourceGroupName: 'vijayb'
+          backendAzureRmStorageAccountName: 'vijaybstorage'
+          backendAzureRmContainerName: 'vijaybcontainer'
+          backendAzureRmKey: 'infra.aks.tfstate'
+
+      - task: TerraformTask@5
+        displayName: validate
+        inputs:
+          provider: 'azurerm'
+          command: 'validate'
+
+      - task: TerraformTask@5
+        displayName: format
+        inputs:
+          provider: 'azurerm'
+          command: 'custom'
+          outputTo: 'console'
+          customCommand: 'fmt'
+          environmentServiceNameAzureRM: 'TFwithaks'
+
+      - task: TerraformTask@5
+        displayName: plan
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/env'
+          environmentServiceNameAzureRM: 'TFwithaks'
+          environmentAzureRmOverrideSubscriptionID: 'dc1ccaa1-bfb7-4732-89fd-bae6e9a0155f'
+          vars: |
+              SQLserver_name=$(SQLserver_name)
+              administrator_login=$(administrator_login)
+              administrator_login_password=$(administrator_login_password)
+
+      - task: TerraformTask@5
+        displayName: apply
+        inputs:
+          provider: 'azurerm'
+          command: 'apply'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/env'
+          environmentServiceNameAzureRM: 'TFwithaks'
+          environmentAzureRmOverrideSubscriptionID: 'dc1ccaa1-bfb7-4732-89fd-bae6e9a0155f'
+          vars: |
+              SQLserver_name=$(SQLserver_name)
+              administrator_login=$(administrator_login)
+              administrator_login_password=$(administrator_login_password)
