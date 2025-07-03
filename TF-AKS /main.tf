@@ -47,6 +47,8 @@ resource "azurerm_kubernetes_cluster" "akscluster" {
   }
 }
 
+# Give your app regestration Owner /Contributor role on the subscription so that this part may not fail at applay task in the pipeline
+
 resource "azurerm_role_assignment" "aks2acr" {
   principal_id                     = azurerm_kubernetes_cluster.akscluster.kubelet_identity[0].object_id
   role_definition_name             = "AcrPull"
