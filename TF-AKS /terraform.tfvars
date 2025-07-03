@@ -1,0 +1,7 @@
+rg_name = "vijayb"
+rg_location = "Southeast Asia "
+subscription_id = "dc1ccaa1-bfb7-4732-89fd-bae6e9a0155f"
+vnet_name = "AKSVNET15"
+subnet01_name = "Subnet01"
+acr_name = "nextopsacr15"
+aks_name = "nextopsaks15"
